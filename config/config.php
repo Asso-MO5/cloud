@@ -71,8 +71,8 @@ $CONFIG = array (
   'mail_smtpsecure' => 'tls',
   'mail_smtpauth' => 1,
   'mail_smtpauthtype' => 'LOGIN',
-  'mail_from_address' => 'votre_email@gmail.com',
-  'mail_domain' => 'gmail.com',
-  'mail_smtpname' => 'votre_email@gmail.com',
-  'mail_smtppassword' => 'votre_mot_de_passe_app',
+  'mail_from_address' => getenv('MAIL_FROM_ADDRESS'),
+  'mail_domain' => getenv('MAIL_DOMAIN'),
+  'mail_smtpname' => getenv('MAIL_SMTPNAME'),
+  'mail_smtppassword' => getenv('MAIL_SMTPPASSWORD'),
 ); 
