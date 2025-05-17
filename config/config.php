@@ -5,12 +5,12 @@ $CONFIG = array (
   'secret' => 'votre_secret_ici',
   'trusted_domains' => 
   array (
-    0 => '{$DOMAIN_CLOUD}',
+    0 => 'cloud.mo5.com',
   ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
   'version' => '31.0.5.1',
-  'overwrite.cli.url' => 'https://{$DOMAIN_CLOUD}',
+  'overwrite.cli.url' => 'https://cloud.mo5.com',
   'dbname' => 'nextcloud',
   'dbhost' => 'db',
   'dbport' => '',
