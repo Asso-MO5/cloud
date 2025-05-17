@@ -5,8 +5,7 @@ $CONFIG = array (
   'secret' => bin2hex(random_bytes(32)),
   'trusted_domains' => 
   array (
-    0 => 'cloud.mo5.com',
-    1 => 'www.cloud.mo5.com',
+    0 => 'cloud.mo5.com'
   ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
