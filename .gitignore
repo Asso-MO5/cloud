@@ -1,1 +1,6 @@
 .env*
+.env
+config/*
+data/*
+custom_apps/*
+themes/*

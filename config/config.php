@@ -1,23 +1,23 @@
 <?php
 $CONFIG = array (
-  'instanceid' => 'oc' . bin2hex(random_bytes(8)),
-  'passwordsalt' => bin2hex(random_bytes(32)),
-  'secret' => bin2hex(random_bytes(32)),
+  'instanceid' => getenv('NEXTCLOUD_INSTANCE_ID'),
+  'passwordsalt' => getenv('NEXTCLOUD_PASSWORD_SALT'),
+  'secret' => getenv('NEXTCLOUD_SECRET'),
   'trusted_domains' => 
   array (
-    0 => 'cloud.mo5.com'
+    0 => getenv('DOMAIN_CLOUD'),
   ),
   'datadirectory' => '/var/www/html/data',
   'dbtype' => 'mysql',
   'version' => '31.0.5.1',
-  'overwrite.cli.url' => 'https://cloud.mo5.com',
-  'dbname' => 'nextcloud',
+  'overwrite.cli.url' => 'https://' . getenv('DOMAIN_CLOUD'),
+  'dbname' => getenv('MYSQL_DATABASE'),
   'dbhost' => 'db',
   'dbport' => '',
   'dbtableprefix' => 'oc_',
   'mysql.utf8mb4' => true,
-  'dbuser' => 'nextcloud',
-  'dbpassword' => 'example_password',
+  'dbuser' => getenv('MYSQL_USER'),
+  'dbpassword' => getenv('MYSQL_PASSWORD'),
   'installed' => true,
   'maintenance' => false,
   'default_phone_region' => 'FR',
@@ -31,7 +31,7 @@ $CONFIG = array (
   'trusted_proxies' => array('caddy'),
   'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
   'overwriteprotocol' => 'https',
-  'overwritehost' => 'cloud.mo5.com',
+  'overwritehost' => getenv('DOMAIN_CLOUD'),
   'overwritewebroot' => '',
   'overwritecondaddr' => '',
   'htaccess.RewriteBase' => '/',
@@ -57,11 +57,11 @@ $CONFIG = array (
     'signaling' => array(
       'servers' => array(
         array(
-          'url' => 'https://cloud.mo5.com',
+          'url' => 'https://' . getenv('DOMAIN_CLOUD'),
           'verify' => true
         )
       ),
-      'secret' => bin2hex(random_bytes(32))
+      'secret' => getenv('NEXTCLOUD_TALK_SECRET')
     )
   ),
   'mail_smtpmode' => 'smtp',

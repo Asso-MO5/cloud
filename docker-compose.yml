@@ -6,10 +6,10 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=example_root_password
-      - MYSQL_PASSWORD=example_password
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
 
   redis:
     image: redis:alpine
@@ -29,10 +29,14 @@ services:
       - ./themes:/var/www/html/themes
       - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
-      - MYSQL_PASSWORD=example_password
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
       - MYSQL_HOST=db
+      - NEXTCLOUD_INSTANCE_ID=${NEXTCLOUD_INSTANCE_ID}
+      - NEXTCLOUD_PASSWORD_SALT=${NEXTCLOUD_PASSWORD_SALT}
+      - NEXTCLOUD_SECRET=${NEXTCLOUD_SECRET}
+      - NEXTCLOUD_TALK_SECRET=${NEXTCLOUD_TALK_SECRET}
     user: "www-data:www-data"
     depends_on:
       - db
