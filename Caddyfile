@@ -1,20 +1,8 @@
 {
     admin off
-    auto_https disable_redirects
 }
 
-cloud.mo5.com {
-    # Forcer HTTPS
-    tls {
-        protocols tls1.2 tls1.3
-    }
-
-    # Redirection HTTP vers HTTPS
-    @http {
-        protocol http
-    }
-    redir @http https://{host}{uri} permanent
-
+{$DOMAIN_CLOUD} {
     reverse_proxy app:80 {
         header_up Host {host}
         header_up X-Real-IP {remote}
@@ -22,8 +10,6 @@ cloud.mo5.com {
         header_up X-Forwarded-Proto {scheme}
         header_up X-Forwarded-Host {host}
         header_up X-Forwarded-Port {server_port}
-        header_up X-Forwarded-Protocol {scheme}
-        header_up X-Forwarded-Ssl on
     }
 
     header {
