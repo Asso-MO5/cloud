@@ -28,6 +28,42 @@ $CONFIG = array (
     'host' => 'redis',
     'port' => 6379,
   ),
+  'trusted_proxies' => array('caddy'),
+  'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+  'overwriteprotocol' => 'https',
+  'overwritehost' => 'cloud.mo5.com',
+  'overwritewebroot' => '',
+  'overwritecondaddr' => '',
+  'htaccess.RewriteBase' => '/',
+  'simpleSignUpLink.shown' => false,
+  'knowledgebaseenabled' => false,
+  'enable_previews' => true,
+  'enabledPreviewProviders' => array(
+    'OC\\Preview\\PNG',
+    'OC\\Preview\\JPEG',
+    'OC\\Preview\\GIF',
+    'OC\\Preview\\BMP',
+    'OC\\Preview\\XBitmap',
+    'OC\\Preview\\MP3',
+    'OC\\Preview\\TXT',
+    'OC\\Preview\\MarkDown',
+    'OC\\Preview\\OpenDocument',
+    'OC\\Preview\\PDF',
+    'OC\\Preview\\Movie',
+    'OC\\Preview\\Krita',
+  ),
+  'talk' => array(
+    'enabled' => true,
+    'signaling' => array(
+      'servers' => array(
+        array(
+          'url' => 'https://cloud.mo5.com',
+          'verify' => true
+        )
+      ),
+      'secret' => 'votre_secret_ici'
+    )
+  ),
   'mail_smtpmode' => 'smtp',
   'mail_smtphost' => 'smtp.gmail.com',
   'mail_smtpport' => 587,
