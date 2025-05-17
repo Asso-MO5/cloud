@@ -4,7 +4,7 @@ services:
     container_name: nextcloud_db
     restart: always
     volumes:
-      - cloud_db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=example_root_password
       - MYSQL_PASSWORD=example_password
@@ -18,7 +18,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - cloud_nextcloud_data:/var/www/html/data
+      - nextcloud_data:/var/www/html/data
       - ./config:/var/www/html/config
       - ./custom_apps:/var/www/html/custom_apps
       - ./themes:/var/www/html/themes
@@ -46,14 +46,7 @@ services:
       - app
 
 volumes:
-  cloud_db_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /var/lib/docker/volumes/cloud_nextcloud_data/_data/db_data
-  cloud_nextcloud_data:
-    name: cloud_nextcloud_data
-    external: true
+  db_data:
+  nextcloud_data:
   caddy_data:
   caddy_config:
