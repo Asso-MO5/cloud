@@ -1,0 +1,19 @@
+{
+    # Désactive l’admin UI et active le debug si besoin
+    admin off
+    # debug                  # décommentez pour voir plus de logs
+    email youremail@exemple.com  # Let’s Encrypt vous enverra un mail si un certificat doit être renouvelé manuellement
+}
+
+{$DOMAIN_CLOUD} {
+    # Compression gzip
+    encode gzip
+
+    # Force HTTPS via HSTS
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+
+    # Proxy vers votre application Nextcloud
+    reverse_proxy app:80
+}

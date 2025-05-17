@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.11
+    # container_name: nextcloud_db   # laissé de côté pour que Docker gère l'alias DNS "db"
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:     ${MYSQL_DATABASE}
+      MYSQL_USER:         ${MYSQL_USER}
+      MYSQL_PASSWORD:     ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nextcloud_net
+
+  redis:
+    image: redis:alpine
+    # container_name: nextcloud_redis
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nextcloud_net
+
+  app:
+    image: nextcloud:31
+    # container_name: nextcloud_app
+    restart: always
+    volumes:
+      - nextcloud_data:/var/www/html/data
+      - ./custom_apps:/var/www/html/custom_apps
+      - ./themes:/var/www/html/themes
+      - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./config/config.php:/var/www/html/config/config.php
+    env_file:
+      - .env
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NEXTCLOUD_INSTANCE_ID=${NEXTCLOUD_INSTANCE_ID}
+      - NEXTCLOUD_PASSWORD_SALT=${NEXTCLOUD_PASSWORD_SALT}
+      - NEXTCLOUD_SECRET=${NEXTCLOUD_SECRET}
+      - NEXTCLOUD_TALK_SECRET=${NEXTCLOUD_TALK_SECRET}
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+      - NEXTCLOUD_MAINTENANCE_WINDOW_START=2
+      - NEXTCLOUD_MAINTENANCE_WINDOW_END=4
+      - NEXTCLOUD_TRUSTED_DOMAINS=localhost,nextcloud.local,${DOMAIN_CLOUD}
+      - NEXTCLOUD_OVERWRITEPROTOCOL=https
+      - NEXTCLOUD_OVERWRITE_CLI_URL=https://${DOMAIN_CLOUD}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - nextcloud_net
+
+  caddy:
+    image: caddy:2
+    # container_name: nextcloud_caddy
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - app
+    networks:
+      - nextcloud_net
+
+volumes:
+  db_data:
+  nextcloud_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  nextcloud_net:
+    driver: bridge
