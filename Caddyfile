@@ -1,5 +1,10 @@
 {
     admin off
+    auto_https off
+}
+
+{$DOMAIN_CLOUD} {
+    reverse_proxy app:80
 }
 
 {$DOMAIN_CLOUD} {
