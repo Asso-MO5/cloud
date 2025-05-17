@@ -37,14 +37,6 @@
     }
     header @static Cache-Control "public, max-age=31536000"
 
-    # Configuration des timeouts
-    timeouts {
-        read_body 3600s
-        read_header 3600s
-        write 3600s
-        idle 3600s
-    }
-
     # Taille maximale des uploads
     request_body {
         max_size 32GB
