@@ -3,7 +3,7 @@
     auto_https disable_redirects
 }
 
-{env.DOMAIN_CLOUD} {
+{$DOMAIN_CLOUD} {
     redir https://{host}{uri} permanent
     reverse_proxy app:80 {
         header_up Host {host}
