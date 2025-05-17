@@ -1,8 +1,8 @@
 <?php
 $CONFIG = array (
-  'instanceid' => 'nextcloud',
-  'passwordsalt' => 'votre_salt_ici',
-  'secret' => 'votre_secret_ici',
+  'instanceid' => 'oc' . bin2hex(random_bytes(8)),
+  'passwordsalt' => bin2hex(random_bytes(32)),
+  'secret' => bin2hex(random_bytes(32)),
   'trusted_domains' => 
   array (
     0 => 'cloud.mo5.com',
@@ -61,7 +61,7 @@ $CONFIG = array (
           'verify' => true
         )
       ),
-      'secret' => 'votre_secret_ici'
+      'secret' => bin2hex(random_bytes(32))
     )
   ),
   'mail_smtpmode' => 'smtp',
