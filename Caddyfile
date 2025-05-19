@@ -2,6 +2,13 @@
     admin off
     debug
     auto_https off
+
+    # Logs détaillés
+    log {
+        output stdout
+        format console
+        level DEBUG
+    }
 }
 
 {$DOMAIN_CLOUD} {
@@ -25,13 +32,6 @@
         health_interval 10s
         health_timeout 5s
         health_status 200
-        
-        # Logs détaillés
-        log {
-            output stdout
-            format console
-            level DEBUG
-        }
     }
 
     # En-têtes de sécurité
