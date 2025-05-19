@@ -12,46 +12,5 @@
 }
 
 {$DOMAIN_CLOUD} {
-    # Redirection des chemins WebDAV
-    redir /.well-known/carddav /remote.php/dav permanent
-    redir /.well-known/caldav /remote.php/dav permanent
-    redir /.well-known /index.php{uri} permanent
-
-    # Protection des fichiers sensibles
-    @sensitive {
-        path /.htaccess /data/* /config/* /db_structure.xml /README
-    }
-    respond @sensitive 403
-
-    reverse_proxy app:8080 {
-        header_up Host {host}
-        header_up X-Real-IP {remote}
-        
-        # Options de débogage
-        health_uri /status.php
-        health_interval 10s
-        health_timeout 5s
-        health_status 200
-    }
-
-    # En-têtes de sécurité
-    header {
-        X-Content-Type-Options "nosniff"
-        X-Frame-Options "SAMEORIGIN"
-        X-XSS-Protection "1; mode=block"
-        Referrer-Policy "strict-origin-when-cross-origin"
-        Permissions-Policy "geolocation=(), microphone=(), camera=()"
-    }
-
-    # Cache pour les fichiers statiques
-    @static {
-        file
-        path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2
-    }
-    header @static Cache-Control "public, max-age=31536000"
-
-    # Taille maximale des uploads
-    request_body {
-        max_size 32GB
-    }
+    reverse_proxy app:8080
 } 
