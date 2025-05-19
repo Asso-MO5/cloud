@@ -1,5 +1,6 @@
 {
     admin off
+    debug
 }
 
 {$DOMAIN_CLOUD} {
@@ -20,13 +21,20 @@
         header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
         
-        # Ajout des options de santé et de retry
+        # Options de débogage
         health_uri /status.php
-        health_interval 30s
+        health_interval 10s
         health_timeout 5s
         health_status 200
         retry_duration 5s
         retry_interval 1s
+        
+        # Logs détaillés
+        log {
+            output stdout
+            format console
+            level DEBUG
+        }
     }
 
     # En-têtes de sécurité
