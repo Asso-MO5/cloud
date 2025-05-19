@@ -12,5 +12,5 @@
 }
 
 {$DOMAIN_CLOUD} {
-    reverse_proxy app:8080
+    reverse_proxy nextcloud_app:80
 } 
