@@ -5,8 +5,6 @@
 }
 
 {$DOMAIN_CLOUD} {
-    tls internal
-
     # Redirection des chemins WebDAV
     redir /.well-known/carddav /remote.php/dav permanent
     redir /.well-known/caldav /remote.php/dav permanent
@@ -42,7 +40,6 @@
 
     # En-têtes de sécurité
     header {
-        Strict-Transport-Security "max-age=15768000; includeSubDomains; preload"
         X-Content-Type-Options "nosniff"
         X-Frame-Options "SAMEORIGIN"
         X-XSS-Protection "1; mode=block"
