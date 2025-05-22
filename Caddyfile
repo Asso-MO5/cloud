@@ -1,15 +1,8 @@
 {
     admin off
     debug
-
-    # Logs détaillés
-    log {
-        output stdout
-        format console
-        level DEBUG
-    }
 }
 
 {$DOMAIN_CLOUD} {
     reverse_proxy nextcloud_app:80
-} 
+}
