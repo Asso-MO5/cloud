@@ -1,7 +1,6 @@
 {
     admin off
     debug
-    auto_https off
 
     # Logs détaillés
     log {
