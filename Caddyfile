@@ -1,8 +1,21 @@
 {
+    # Désactive l’admin UI et active le debug si besoin
     admin off
     debug
 }
 
+# Remplacez DOMAIN_CLOUD par votre domaine, ou définissez-le dans .env
 {$DOMAIN_CLOUD} {
-    reverse_proxy nextcloud_app:80
+    encode gzip
+    reverse_proxy app:80
+
+    # En option, forcer HTTPS
+    tls {
+        # Pas de certificat custom : Let’s Encrypt automatique
+    }
+
+    log {
+        output stdout
+        format console
+    }
 }
