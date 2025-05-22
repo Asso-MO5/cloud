@@ -1,19 +1,23 @@
 {
-    # Désactive l’admin UI et active le debug si besoin
+    # Désactive l’admin UI et permet d’afficher les debug si besoin
     admin off
     debug
 }
 
-# Remplacez DOMAIN_CLOUD par votre domaine, ou définissez-le dans .env
 {$DOMAIN_CLOUD} {
+    # Compression gzip
     encode gzip
+
+    # HTTPS automatique via Let's Encrypt
+    # (pas besoin de bloc tls vide ou d’email si vous le souhaitez)
+    # Caddy activera HTTPS par défaut pour un nom de domaine
+    # tls {
+    # }
+
+    # Proxy vers votre service Nextcloud nommé "app" dans docker-compose
     reverse_proxy app:80
 
-    # En option, forcer HTTPS
-    tls {
-        # Pas de certificat custom : Let’s Encrypt automatique
-    }
-
+    # Logs en console
     log {
         output stdout
         format console
