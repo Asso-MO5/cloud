@@ -1,8 +1,12 @@
 {
-    # Désactive l’admin UI et active le debug si besoin
+    # Désactive l'admin UI et active le debug si besoin
     admin off
     # debug                  # décommentez pour voir plus de logs
-    email youremail@exemple.com  # Let’s Encrypt vous enverra un mail si un certificat doit être renouvelé manuellement
+    email admin@mo5.com  # Let's Encrypt vous enverra un mail si un certificat doit être renouvelé manuellement
+}
+
+http://{$DOMAIN_CLOUD} {
+    redir https://{$DOMAIN_CLOUD}{uri} 301
 }
 
 {$DOMAIN_CLOUD} {
@@ -12,8 +16,24 @@
     # Force HTTPS via HSTS
     header {
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-Robots-Tag "noindex,nofollow"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
     }
 
+    # Redirections recommandées par Nextcloud
+    redir /.well-known/carddav /remote.php/dav/ 301
+    redir /.well-known/caldav /remote.php/dav/ 301
+
     # Proxy vers votre application Nextcloud
-    reverse_proxy app:80
+    reverse_proxy app:80 {
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+        header_up Host {host}
+        header_up X-Forwarded-Host {host}
+    }
 }
